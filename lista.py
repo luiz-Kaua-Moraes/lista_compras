@@ -14,51 +14,87 @@ def menu():
     opcaoMenu = int(input("\nInforme o número correspondente o que deseja fazer:"))
     
 def adicionar_produto():
-    sequenciaProduto = 1
+    sequenciaProduto = 0
     print("\nADICIONAR PRODUTO")
 
     while True:
-        print("\nDigite sair quando quiser parar de adicionar o produto")
-        produtoNome = input(f"\n{sequenciaProduto}° produto:")
-        sequenciaProduto +=1
+        print("\nDigite -1 quando quiser parar de adicionar o produto")
 
-        listacompras.append(produtoNome)
+        #entrada do produto com sequencia e aumento da primeira letra
+        sequenciaProduto +=1
+        produtoNome = input(f"\n{sequenciaProduto}° produto:").capitalize()
+        
+        #Verificação para sair do menu de adicionar
+        if produtoNome == "-1":
+            break
+        #adição do produto à slista
+        else:
+            listacompras.append(produtoNome)
+            
 
 def remover_produto():
-    sequenciaProduto = 1
+    sequenciaProduto = 0
     print("\nREMOVER PRODUTO")
+
     while True:
-        print("\nDigite sair quando quiser parar de remover o produto")
+        listar_produtos()
+
+        print("\nDigite -1 quando quiser parar de remover o produto")
+
         print("\nPara remover um produto você deve digitar o número que corresponde ao produto")
-        numeroProduto = int(input(f"\n{sequenciaProduto}° Produto:"))
+
         sequenciaProduto +=1
+        numeroProduto = int(input(f"\n{sequenciaProduto}° Produto:"))
+       
 
-        listacompras.remove(numeroProduto)
-
+        if numeroProduto == -1:
+            break
+        else:
+            listacompras.remove(listacompras[numeroProduto-1])
+            
 def listar_produtos():
-    print("\nLISTA")
-    for produto in listacompras():
-        print(produto)
+    sequencia = 0
+    print("\nLISTA\n")
+
+    for produto in listacompras:
+        sequencia +=1
+        print(f"{sequencia}-{produto}")
 
 def procurar_produto():
-    sequenciaProduto = 1
+    sequenciaProduto = 0
     print("\nPROCURAR PRODUTO")
 
     while True:
-        print("\nDigite sair quando voltar para o menu")
-        nomeProduto = input(f"\n{sequenciaProduto}°Produto")
+        print("\nDigite -1 quando quiser voltar para o menu")
+
         sequenciaProduto += 1
+        nomeProduto = input(f"\n{sequenciaProduto}°Produto: ").capitalize()
 
         if nomeProduto in listacompras:
-            print("Está na lista")
+            print(f"{nomeProduto} está na lista")
+
+        else:
+            print(f"{nomeProduto} não está na lista")
+            perguntaAdicionar = input(f"\nDeseja adicionar {nomeProduto} à sua lista? (s/n):").capitalize()
+
+            if perguntaAdicionar == "S":
+                listacompras.append(nomeProduto)
+                print(f"\n{nomeProduto} adicionado com sucesso!")
+
+            elif perguntaAdicionar == "N":
+                break
+
+            else:
+                print("Você só deve informar s ou n")
+
 
 def contar_qntd_produtos():
     qntdProdutos = 0
     print("\nQUANTIDADE DE PRODUTOS")
 
-    for produto in listacompras():
+    for produto in listacompras:
         qntdProdutos +=1
-    print(f"\n{qntdProdutos}")
+    print(f"\n{qntdProdutos} Produtos na sua lista")
 
 while opcaoMenu !=6:
     menu()
