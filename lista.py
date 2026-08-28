@@ -11,7 +11,12 @@ def menu():
     print("5-Mostrar quantidade de produtos")
     print("6- Sair")
 
-    opcaoMenu = int(input("\nInforme o número correspondente o que deseja fazer:"))
+    try:
+        opcaoMenu = int(input("\nInforme o número correspondente o que deseja fazer:"))
+    except:
+        #Vermelhho
+        print("\nVocê só pode informar número")
+
     
 def adicionar_produto():
     sequenciaProduto = 0
@@ -31,26 +36,40 @@ def adicionar_produto():
         else:
             listacompras.append(produtoNome)
             
-
 def remover_produto():
-    sequenciaProduto = 0
+    sequenciaProduto = 1
     print("\nREMOVER PRODUTO")
 
     while True:
         listar_produtos()
-
         print("\nDigite -1 quando quiser parar de remover o produto")
+        print("\nPara remover um produto você deve digitar o número que corresponda ao produto")
 
-        print("\nPara remover um produto você deve digitar o número que corresponde ao produto")
+        try:
+            #Entrada de número do produto a ser removido
+            numeroProduto = int(input(f"\n{sequenciaProduto}° Produto:"))
 
-        sequenciaProduto +=1
-        numeroProduto = int(input(f"\n{sequenciaProduto}° Produto:"))
-       
+        except ValueError:
+            print("\nApenas números devem ser informados")
 
-        if numeroProduto == -1:
-            break
         else:
-            listacompras.remove(listacompras[numeroProduto-1])
+            
+            if numeroProduto == -1:
+                break
+
+            #Impede de remover um número maior ou menor que o tamanho da lista o -1 fica isento
+            if numeroProduto >0 or numeroProduto <len(listacompras):
+                print("Este número não está na lista")
+                continue
+
+            else:
+                print(f"{listacompras[numeroProduto-1]} Removido com sucesso!")
+                listacompras.remove(listacompras[numeroProduto-1])
+                sequenciaProduto +=1
+                
+        
+
+        
             
 def listar_produtos():
     sequencia = 0
@@ -111,6 +130,8 @@ while opcaoMenu !=6:
             contar_qntd_produtos()
         case 6:
             break
+        case _:
+            print("Informe um número válido que esteja na lista")
 
 
         
