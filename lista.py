@@ -49,28 +49,26 @@ def remover_produto():
             #Entrada de número do produto a ser removido
             numeroProduto = int(input(f"\n{sequenciaProduto}° Produto:"))
 
+        
         except ValueError:
-            print("\nApenas números devem ser informados")
-
+            print("\nSomente números devem ser informados")
+            
         else:
             
             if numeroProduto == -1:
                 break
 
             #Impede de remover um número maior ou menor que o tamanho da lista o -1 fica isento
-            if numeroProduto >0 or numeroProduto <len(listacompras):
+            if numeroProduto <=0 or numeroProduto >len(listacompras):
                 print("Este número não está na lista")
                 continue
 
+            #Remove o produto que corresponde ao número emostra a mensagem com a contagem humanizada de que o produto foi removido com sucesso
             else:
                 print(f"{listacompras[numeroProduto-1]} Removido com sucesso!")
                 listacompras.remove(listacompras[numeroProduto-1])
                 sequenciaProduto +=1
                 
-        
-
-        
-            
 def listar_produtos():
     sequencia = 0
     print("\nLISTA\n")
@@ -115,19 +113,25 @@ def contar_qntd_produtos():
         qntdProdutos +=1
     print(f"\n{qntdProdutos} Produtos na sua lista")
 
+def verificar_se_lista_cheia(funcao):
+    if len(listacompras) >=1:
+        return funcao()
+    else:
+        print("A lista está vazia")
+    
 while opcaoMenu !=6:
     menu()
     match opcaoMenu:
         case 1:
             adicionar_produto()
         case 2:
-            remover_produto()
+            verificar_se_lista_cheia(remover_produto)
         case 3:
-            listar_produtos()
+            verificar_se_lista_cheia(listar_produtos)
         case 4:
-            procurar_produto()
+            verificar_se_lista_cheia(procurar_produto)
         case 5:
-            contar_qntd_produtos()
+            verificar_se_lista_cheia(contar_qntd_produtos)
         case 6:
             break
         case _:
