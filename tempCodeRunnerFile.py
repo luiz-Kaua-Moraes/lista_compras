@@ -1,1 +1,1 @@
-sequenciaProduto +=1
+cor_texto_usuario
