@@ -119,6 +119,7 @@ def remover_produto():
 
     while True:
         listar_produtos(valor=False)
+
         print(f"{cores_terminal(3)}\nDigite -1 quando quiser parar de remover o produto")
         print(f"{cores_terminal(3)}\nPara remover um produto você deve digitar o número que corresponda ao produto")
 
@@ -172,21 +173,20 @@ def remover_produto():
 #Valor = False foi criado para que na função remover() não pergunte ao usuário se ele deseja sair, ou seja, mostra somente a lista
 """
 def listar_produtos(valor = True): 
-
     sequencia = 0
     sair = 0
 
     print(f"\n{cores_terminal(1)}LISTA\n")
+
+    
     for produto in listacompras:
         sequencia +=1
+        print(f"{cores_terminal(7)}{sequencia}-{produto}")
+        
+            
 
-        if valor == False:
-            print(f"{cores_terminal(7)}{sequencia}-{produto}")
-            continue
-
-        elif valor == True:
-            print(f"{cores_terminal(7)}{sequencia}-{produto}")
-
+    if valor == True:    
+        
         while sair != "S":    
 
             sair = input(f"\n{cores_terminal(5)}Deseja sair? (s/n):{cores_terminal(8)}").capitalize()
@@ -198,7 +198,7 @@ def listar_produtos(valor = True):
                                         
             elif sair == "N":
                 continue
-                                                        
+                                                            
             else:
                 print(f"{cores_terminal(2)}Você só deve informar s ou n")
 
@@ -210,24 +210,29 @@ def procurar_produto():
         print(f"{cores_terminal(3)}\nDigite -1 quando quiser voltar para o menu")
 
         sequenciaProduto += 1
-        nomeProduto = input(f"\n{cores_terminal(5)}{sequenciaProduto}°Produto: ").capitalize()
+        nomeProduto = input(f"\n{cores_terminal(5)}{sequenciaProduto}°Produto: {cores_terminal(8)}").capitalize()
 
-        if nomeProduto in listacompras:
-            print(f"\n{cores_terminal(4)}{nomeProduto} está na lista")
-
-        else:
-            print(f"{cores_terminal(2)}{nomeProduto} não está na lista")
-            perguntaAdicionar = input(f"{cores_terminal(5)}\nDeseja adicionar {nomeProduto} à sua lista? (s/n):{cores_terminal(8)}").capitalize()
-
-            if perguntaAdicionar == "S":
-                listacompras.append(nomeProduto)
-                print(f"\n{cores_terminal(4)}{nomeProduto} adicionado com sucesso!")
-
-            elif perguntaAdicionar == "N":
-                break
+        if nomeProduto != "-1":
+            if nomeProduto in listacompras:
+                print(f"\n{cores_terminal(4)}{nomeProduto} está na lista")
 
             else:
-                print(f"{cores_terminal(2)}Você só deve informar s ou n")
+                print(f"{cores_terminal(2)}{nomeProduto} não está na lista")
+                perguntaAdicionar = input(f"{cores_terminal(5)}\nDeseja adicionar {nomeProduto} à sua lista? (s/n):{cores_terminal(8)}").capitalize()
+
+                if perguntaAdicionar == "S":
+                    listacompras.append(nomeProduto)
+                    print(f"\n{cores_terminal(4)}{nomeProduto} adicionado com sucesso!")
+
+                elif perguntaAdicionar == "N":
+                    continue
+
+                else:
+                    print(f"{cores_terminal(2)}Você só deve informar s ou n")
+        if nomeProduto == "-1":
+            print(mensagem_saindo_Ou_voltando("Saindo..."))
+            tempo(3)
+            break
 
 
 def contar_qntd_produtos():
@@ -276,6 +281,8 @@ while opcaoMenu !=6:
         case 5:
             contar_qntd_produtos()
         case 6:
+            print(mensagem_saindo_Ou_voltando("Saindo..."))
+            tempo(3)
             break
         case _:
             print("Informe um número válido que esteja na lista")
