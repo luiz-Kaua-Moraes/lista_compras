@@ -118,7 +118,7 @@ def remover_produto():
     print(f"{cores_terminal(1)}\nREMOVER PRODUTO")
 
     while True:
-        listar_produtos()
+        listar_produtos(valor=False)
         print(f"{cores_terminal(3)}\nDigite -1 quando quiser parar de remover o produto")
         print(f"{cores_terminal(3)}\nPara remover um produto você deve digitar o número que corresponda ao produto")
 
@@ -141,22 +141,21 @@ def remover_produto():
 
             #Remove o produto que corresponde ao número e mostra a mensagem com a contagem humanizada de que o produto foi removido com sucesso
             else:
-            
                 print(f"{cores_terminal(7)}{listacompras[numeroProduto-1]} {cores_terminal(4)}Removido com sucesso!")
                 listacompras.remove(listacompras[numeroProduto-1])
                 sequenciaProduto +=1
 
             if not listacompras:
+                saiu = False
                 sair = 0
 
                 print(f"{cores_terminal(3)}Você removeu todos os produtos!")
 
-                while sair != "N":
+                while sair != "S":
                     sair = input(f"\n{cores_terminal(5)}Deseja sair? (s/n):{cores_terminal(8)}").capitalize()
-
+                    
                     if sair == "S":
-                        mensagem_saindo_Ou_voltando("Saindo...")
-                        tempo(3)
+                        saiu = True
                         
                     elif sair == "N":
                         print(f"{cores_terminal(3)}Você removeu todos os produtos!")
@@ -164,17 +163,44 @@ def remover_produto():
                         
                     else:
                         print(f"{cores_terminal(2)}Você só deve informar s ou n")
+                if saiu:
+                    print(mensagem_saindo_Ou_voltando("Saindo..."))
+                    tempo(3)
+                    break
+            
+"""
+#Valor = False foi criado para que na função remover() não pergunte ao usuário se ele deseja sair, ou seja, mostra somente a lista
+"""
+def listar_produtos(valor = True): 
 
-
-        
-                
-def listar_produtos():
     sequencia = 0
-    print(f"\n{cores_terminal(1)}LISTA\n")
+    sair = 0
 
+    print(f"\n{cores_terminal(1)}LISTA\n")
     for produto in listacompras:
         sequencia +=1
-        print(f"{cores_terminal(7)}{sequencia}-{produto}")
+
+        if valor == False:
+            print(f"{cores_terminal(7)}{sequencia}-{produto}")
+            continue
+
+        elif valor == True:
+            print(f"{cores_terminal(7)}{sequencia}-{produto}")
+
+        while sair != "S":    
+
+            sair = input(f"\n{cores_terminal(5)}Deseja sair? (s/n):{cores_terminal(8)}").capitalize()
+                                    
+            if sair == "S":
+                print(mensagem_saindo_Ou_voltando("Saindo..."))
+                tempo(3)
+                break
+                                        
+            elif sair == "N":
+                continue
+                                                        
+            else:
+                print(f"{cores_terminal(2)}Você só deve informar s ou n")
 
 def procurar_produto():
     sequenciaProduto = 0
@@ -191,7 +217,7 @@ def procurar_produto():
 
         else:
             print(f"{cores_terminal(2)}{nomeProduto} não está na lista")
-            perguntaAdicionar = input(f"\nDeseja adicionar {nomeProduto} à sua lista? (s/n):").capitalize()
+            perguntaAdicionar = input(f"{cores_terminal(5)}\nDeseja adicionar {nomeProduto} à sua lista? (s/n):{cores_terminal(8)}").capitalize()
 
             if perguntaAdicionar == "S":
                 listacompras.append(nomeProduto)
@@ -210,7 +236,16 @@ def contar_qntd_produtos():
 
     for produto in listacompras:
         qntdProdutos +=1
-    print(f"{cores_terminal()}\n{qntdProdutos} Produtos na sua lista")
+
+    if len(listacompras) > 1:
+        print(f"{cores_terminal(3)}\n{qntdProdutos} Produtos na sua lista")
+
+    elif len(listacompras) == 1:
+        print(f"{cores_terminal(3)}\n{qntdProdutos} Produto na sua lista")
+
+    else:
+        print(f"{cores_terminal(3)}\nNenhum produto na sua lista")
+
 
 def verificar_se_lista_cheia(funcao):
     if len(listacompras) >=1:
@@ -224,7 +259,9 @@ def tempo(tempo):
 def mensagem_saindo_Ou_voltando(mensagem):
     cinza = Fore.LIGHTBLACK_EX
     return f"{cinza}{mensagem}"
+
     
+
 while opcaoMenu !=6:
     menu()
     match opcaoMenu:
@@ -237,7 +274,7 @@ while opcaoMenu !=6:
         case 4:
             verificar_se_lista_cheia(procurar_produto)
         case 5:
-            contar_qntd_produtos
+            contar_qntd_produtos()
         case 6:
             break
         case _:
